@@ -92,7 +92,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret("8PuT=9o6TC0i0CB#ctzR".Sha256())
+                        new Secret(configuration.GetValue<string>("CustomerWebAppPassword"))
                     },
                     AllowedScopes =
                     {
@@ -123,7 +123,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret("@u@h$8Pos4Nq7qJkbVPF".Sha256())
+                        new Secret(configuration.GetValue<string>("ReviewApiPassword"))
                     },
                     AllowedScopes =
                     {
@@ -141,7 +141,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret("14mb#wF7SP|Y$i^ay|m1".Sha256())
+                        new Secret(configuration.GetValue<string>("CustomerAccountApiPassword"))
                     },
                     AllowedScopes =
                     {
@@ -162,7 +162,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret("M_1cTSDQX^k=TtGwi%".Sha256())
+                        new Secret(configuration.GetValue<string>("CustomerProductApiPassword"))
                     },
                     AllowedScopes =
                     {
@@ -181,7 +181,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret("fmyp-&1_EfPtuCChKRx".Sha256())
+                        new Secret(configuration.GetValue<string>("CustomerOrderingApiPassword"))
                     },
                     AllowedScopes =
                     {
