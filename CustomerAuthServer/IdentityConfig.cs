@@ -92,7 +92,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret(configuration.GetValue<string>("CustomerWebAppPassword"))
+                        new Secret(configuration.GetValue<string>("CustomerWebAppPassword").Sha256())
                     },
                     AllowedScopes =
                     {
@@ -123,7 +123,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret(configuration.GetValue<string>("ReviewApiPassword"))
+                        new Secret(configuration.GetValue<string>("ReviewApiPassword").Sha256())
                     },
                     AllowedScopes =
                     {
@@ -141,7 +141,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret(configuration.GetValue<string>("CustomerAccountApiPassword"))
+                        new Secret(configuration.GetValue<string>("CustomerAccountApiPassword").Sha256())
                     },
                     AllowedScopes =
                     {
@@ -162,7 +162,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret(configuration.GetValue<string>("CustomerProductApiPassword"))
+                        new Secret(configuration.GetValue<string>("CustomerProductApiPassword").Sha256())
                     },
                     AllowedScopes =
                     {
@@ -181,7 +181,7 @@ namespace CustomerAuthServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret(configuration.GetValue<string>("CustomerOrderingApiPassword"))
+                        new Secret(configuration.GetValue<string>("CustomerOrderingApiPassword").Sha256())
                     },
                     AllowedScopes =
                     {
