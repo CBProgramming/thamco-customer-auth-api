@@ -103,12 +103,12 @@ namespace CustomerAuthServer
                 .AddJwtBearer("customer_web_app", options =>
                 {
                     options.Audience = "customer_auth_customer_api";
-                    options.Authority = "https://customerauththamco.azurewebsites.net";
+                    options.Authority = "https://customeroauththamco.azurewebsites.net";
                 })
                 .AddJwtBearer("customer_account_api", options =>
                 {
                     options.Audience = "customer_auth_staff_api";
-                    options.Authority = "https://customerauththamco.azurewebsites.net";
+                    options.Authority = "https://customeroauththamco.azurewebsites.net";
                 });
             }
 
