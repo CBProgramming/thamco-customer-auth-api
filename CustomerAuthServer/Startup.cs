@@ -77,40 +77,25 @@ namespace CustomerAuthServer
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            if (Env.IsDevelopment())
+            services.AddAuthentication(options =>
             {
-                services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer()
-                .AddJwtBearer("customer_web_app", options =>
-                {
-                    options.Audience = "customer_auth_customer_api";
-                    options.Authority = "https://localhost:43389";
-                })
-                .AddJwtBearer("customer_account_api", options =>
-                {
-                    options.Audience = "customer_auth_staff_api";
-                    options.Authority = "https://localhost:43389";
-                });
-            }
-            else
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer()
+            .AddJwtBearer("customer_web_app", options =>
             {
-                services.AddAuthentication()
-                .AddJwtBearer("customer_web_app", options =>
-                {
-                    options.Audience = "customer_auth_customer_api";
-                    options.Authority = "https://customeroauththamco.azurewebsites.net";
-                })
-                .AddJwtBearer("customer_account_api", options =>
-                {
-                    options.Audience = "customer_auth_staff_api";
-                    options.Authority = "https://customeroauththamco.azurewebsites.net";
-                });
-            }
+                options.Audience = "customer_auth_customer_api";
+                options.Authority = Configuration.GetValue<string>("CustomerAuthServerUrl");
+            })
+            .AddJwtBearer("customer_account_api", options =>
+            {
+                options.Audience = "customer_auth_staff_api";
+                options.Authority = Configuration.GetValue<string>("CustomerAuthServerUrl");
+            });
+
+        
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
