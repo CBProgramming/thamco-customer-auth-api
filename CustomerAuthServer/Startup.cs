@@ -106,8 +106,14 @@ namespace CustomerAuthServer
                 OptionsBuilderConfigurationExtensions.AddPolicy("customer_web_app", policy =>
                 policy.AddAuthenticationSchemes("customer_web_app")
                 .RequireAssertion(context =>
+                context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_web_app")
+                ));
+
+                OptionsBuilderConfigurationExtensions.AddPolicy("customer_web_app_logged_in", policy =>
+                policy.AddAuthenticationSchemes("customer_web_app")
+                .RequireAssertion(context =>
                 (context.User.HasClaim(c => c.Type == "role" && c.Value == "Customer")
-                || context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_web_app")
+                && context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_web_app")
                 )));
 
                 OptionsBuilderConfigurationExtensions.AddPolicy("customer_account_api", policy =>
