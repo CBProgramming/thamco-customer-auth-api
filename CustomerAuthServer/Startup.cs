@@ -96,33 +96,28 @@ namespace CustomerAuthServer
                 options.Authority = Configuration.GetValue<string>("CustomerAuthServerUrl");
             });
 
+
             services.AddAuthorization(OptionsBuilderConfigurationExtensions =>
             {
                 OptionsBuilderConfigurationExtensions.DefaultPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .AddAuthenticationSchemes("customer_web_app", "customer_account_api")
+                .AddAuthenticationSchemes("customer_web_app", "customer_account_api", "customer_web_app_logged_in")
                 .Build();
 
-                OptionsBuilderConfigurationExtensions.AddPolicy("customer_web_app", policy =>
+                OptionsBuilderConfigurationExtensions.AddPolicy("customer_web_app_only", policy =>
                 policy.AddAuthenticationSchemes("customer_web_app")
                 .RequireAssertion(context =>
                 context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_web_app")
                 ));
 
-                OptionsBuilderConfigurationExtensions.AddPolicy("customer_web_app_logged_in", policy =>
+                OptionsBuilderConfigurationExtensions.AddPolicy("user_exists_only", policy =>
                 policy.AddAuthenticationSchemes("customer_web_app")
                 .RequireAssertion(context =>
                 (context.User.HasClaim(c => c.Type == "role" && c.Value == "Customer")
-                && context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_web_app")
-                )));
-
-                OptionsBuilderConfigurationExtensions.AddPolicy("customer_account_api", policy =>
-                policy.AddAuthenticationSchemes("customer_account_api")
-                .RequireAssertion(context =>
-                context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_account_api")
+                && context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_web_app"))
+                || context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_account_api")
                 ));
             });
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

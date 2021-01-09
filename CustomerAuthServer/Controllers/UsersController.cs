@@ -28,7 +28,7 @@ namespace CustomerAuthServer.Controllers
         }
 
         //only customers can access
-        [Authorize(AuthenticationSchemes = "customer_web_app")]
+        [Authorize(AuthenticationSchemes = "customer_web_app_only")]
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] UserPutDto newUser)
         {
@@ -50,7 +50,7 @@ namespace CustomerAuthServer.Controllers
         }
 
         //both customers and staff can access (via customer_web_app and customer_account_api respectively
-        [Authorize(AuthenticationSchemes = "customer_account_api,customer_web_app_logged_in")]
+        [Authorize(Policy = "user_exists_only")]
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser([FromRoute] string userId,
                                                     [FromBody] UserPutDto updatedUser)
@@ -76,7 +76,7 @@ namespace CustomerAuthServer.Controllers
         }
 
         //both customers and staff can access (via customer_web_app and customer_account_api respectively
-        [Authorize(AuthenticationSchemes = "customer_account_api,customer_web_app_logged_in")]
+        [Authorize(Policy = "user_exists_only")]
         [HttpDelete("{userId}")]
         public async Task<IActionResult> RemoveUser([FromRoute] string userId = null)
         {
@@ -92,7 +92,7 @@ namespace CustomerAuthServer.Controllers
         }
 
         [HttpGet("{userId}")]
-        [Authorize(AuthenticationSchemes = "customer_account_api,customer_web_app_logged_in")]
+        [Authorize(Policy = "user_exists_only")]
         public async Task<IActionResult> GetUser([FromRoute] string userId)
         {
             var user = _mapper.Map<UserGetDto>(await _repo.GetUser(userId));
