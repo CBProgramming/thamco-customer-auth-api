@@ -101,7 +101,7 @@ namespace CustomerAuthServer
             {
                 OptionsBuilderConfigurationExtensions.DefaultPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .AddAuthenticationSchemes("customer_web_app", "customer_account_api", "customer_web_app_logged_in")
+                .AddAuthenticationSchemes("customer_web_app", "customer_account_api")
                 .Build();
 
                 OptionsBuilderConfigurationExtensions.AddPolicy("customer_web_app_only", policy =>

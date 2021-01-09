@@ -28,7 +28,7 @@ namespace CustomerAuthServer.Controllers
         }
 
         //only customers can access
-        [Authorize(AuthenticationSchemes = "customer_web_app_only")]
+        [Authorize(Policy = "customer_web_app_only")]
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] UserPutDto newUser)
         {
