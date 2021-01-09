@@ -106,7 +106,8 @@ namespace ThAmCo.Repo
 
         public async Task<AppUserModel> GetUser(string authId)
         {
-            return _mapper.Map<AppUserModel>(GetAppUser(authId));
+            var result = _mapper.Map<AppUserModel>(await GetAppUser(authId));
+            return result;
         }
 
         public async Task<IList<string>> GetRoles(string userId)
@@ -116,7 +117,7 @@ namespace ThAmCo.Repo
 
         private async Task<AppUser> GetAppUser(string authId)
         {
-            var user = await UserManager.FindByIdAsync(authId);
+            AppUser user = await UserManager.FindByIdAsync(authId);
             if (user == null)
             {
                 return null;
