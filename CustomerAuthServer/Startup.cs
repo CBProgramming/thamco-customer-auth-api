@@ -18,6 +18,7 @@ using ThAmCo.Data;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ThAmCo.Repo;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CustomerAuthServer
 {
@@ -95,7 +96,26 @@ namespace CustomerAuthServer
                 options.Authority = Configuration.GetValue<string>("CustomerAuthServerUrl");
             });
 
-        
+            services.AddAuthorization(OptionsBuilderConfigurationExtensions =>
+            {
+                OptionsBuilderConfigurationExtensions.DefaultPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .AddAuthenticationSchemes("customer_web_app", "customer_account_api")
+                .Build();
+
+                OptionsBuilderConfigurationExtensions.AddPolicy("customer_web_app", policy =>
+                policy.AddAuthenticationSchemes("customer_web_app")
+                .RequireAssertion(context =>
+                (context.User.HasClaim(c => c.Type == "role" && c.Value == "Customer")
+                || context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_web_app")
+                )));
+
+                OptionsBuilderConfigurationExtensions.AddPolicy("customer_account_api", policy =>
+                policy.AddAuthenticationSchemes("customer_account_api")
+                .RequireAssertion(context =>
+                context.User.HasClaim(c => c.Type == "client_id" && c.Value == "customer_account_api")
+                ));
+            });
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
