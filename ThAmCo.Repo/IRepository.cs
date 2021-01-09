@@ -12,12 +12,10 @@ namespace ThAmCo.Repo
 
         Task<bool> EditUser(UserPutModel updatedUser, string userId);
 
-        Task<bool> EditUserPassword(AppUserModel user, string password);
-
         Task<bool> DeleteUser(string authId);
 
         Task<IList<string>> GetRoles(string userId);
 
-        Task<AppUser> GetUser(string authId);
+        Task<AppUserModel> GetUser(string authId);
     }
 }

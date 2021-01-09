@@ -104,7 +104,17 @@ namespace ThAmCo.Repo
             return dto;
         }
 
-        public async Task<AppUser> GetUser(string authId)
+        public async Task<AppUserModel> GetUser(string authId)
+        {
+            return _mapper.Map<AppUserModel>(GetAppUser(authId));
+        }
+
+        public async Task<IList<string>> GetRoles(string userId)
+        {
+            return await UserManager.GetRolesAsync(await GetAppUser(userId));
+        }
+
+        private async Task<AppUser> GetAppUser(string authId)
         {
             var user = await UserManager.FindByIdAsync(authId);
             if (user == null)
@@ -112,26 +122,6 @@ namespace ThAmCo.Repo
                 return null;
             }
             return user;
-        }
-
-        public async Task<bool> EditUserPassword(AppUserModel user, string password)
-        {
-            try
-            {
-                await UserManager.RemovePasswordAsync(_mapper.Map<AppUser>(user));
-                await UserManager.AddPasswordAsync(_mapper.Map<AppUser>(user), password);
-                return true;
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-
-            }
-            return false;
-        }
-
-        public async Task<IList<string>> GetRoles(string userId)
-        {
-            return await UserManager.GetRolesAsync(await GetUser(userId));
         }
     }
 }

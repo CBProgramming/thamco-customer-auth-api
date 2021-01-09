@@ -25,6 +25,8 @@ namespace CustomerAuthServer
             CreateMap<UserGetDto, AppUser>();
             CreateMap<AppUserDto, AppUserModel>();
             CreateMap<AppUserModel, AppUserDto>();
+            CreateMap<UserGetDto, AppUserModel>();
+            CreateMap<AppUserModel, UserGetDto>();
         }
     }
 }

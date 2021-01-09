@@ -19,6 +19,7 @@ namespace CustomerAuthServer.Controllers
     {
         private IRepository _repo;
         private IMapper _mapper;
+        private string authId, clientId, tokenCustomerId;
 
         public UsersController(IRepository repo, IMapper mapper)
         {
@@ -35,8 +36,16 @@ namespace CustomerAuthServer.Controllers
             {
                 return BadRequest();
             }
+            if (string.IsNullOrEmpty(newUser.Email)
+                || string.IsNullOrEmpty(newUser.Password))
+            {
+                return UnprocessableEntity();
+            }
             var result = _mapper.Map<UserGetDto>(await _repo.NewUser(_mapper.Map<UserPutModel>(newUser)));
-
+            if (result == null)
+            {
+                return NotFound();
+            }
             return Ok(result);
         }
 
@@ -46,21 +55,23 @@ namespace CustomerAuthServer.Controllers
         public async Task<IActionResult> UpdateUser([FromRoute] string userId,
                                                     [FromBody] UserPutDto updatedUser)
         {
-            var accessTokenUserId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
             if (string.IsNullOrEmpty(userId) || updatedUser == null)
             {
                 return BadRequest();
             }
-
-
-            if (!await _repo.EditUser(_mapper.Map<UserPutModel>(updatedUser), userId))
+            if (string.IsNullOrEmpty(updatedUser.Email)
+                || string.IsNullOrEmpty(updatedUser.Password))
+            {
+                return UnprocessableEntity();
+            }
+            var user = _mapper.Map<UserGetDto>(await _repo.GetUser(userId));
+            if (user == null || !await _repo.EditUser(_mapper.Map<UserPutModel>(updatedUser), userId))
             {
                 return NotFound();
             }
-
-            var user = _mapper.Map<UserGetDto>(await _repo.GetUser(userId));
+            user.Email = updatedUser.Email;
+            user.UserName = updatedUser.Email;
             user.Roles = await _repo.GetRoles(userId);
-
             return Ok(user);
         }
 

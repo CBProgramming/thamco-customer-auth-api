@@ -21,12 +21,6 @@ namespace CustomerAuthServer
                 new IdentityResource(name: "roles", claimTypes: new[] { "role" }),
 
                 new IdentityResource(name: "id", claimTypes: new[] { "id" }),
-
-                //new IdentityResource(name: "id", claimTypes: new[] { "id" }),
-
-                //new IdentityResource(JwtClaimTypes.Id, claimTypes: new[] { "id" }),
-
-                //new IdentityResource("CustomerId", new [] {"CustomerId"})
             };
         }
 
@@ -129,8 +123,6 @@ namespace CustomerAuthServer
                     {
                         "roles",
                         "id"
-                        //auth server access
-                        //"thamco_account_api"
                     },
                     RequireConsent = false
                 },
@@ -169,8 +161,6 @@ namespace CustomerAuthServer
                         "roles",
                         "id",
                         "customer_ordering_api"
-                        //auth server access
-                        //"thamco_account_api"
                     },
                     RequireConsent = false
                 },
@@ -187,16 +177,12 @@ namespace CustomerAuthServer
                     {
                         "roles",
                         "id",
-                        //auth server access
-                        //"thamco_account_api",
 
                         "customer_auth_customer_api",
                         "customer_account_api",
                         "invoice_api",
                         "staff_product_api",
                         "review_api"
-
-                        //"thamco_account_api"
                     },
                     RequireConsent = false
                 },
