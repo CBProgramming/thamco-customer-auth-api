@@ -1211,7 +1211,7 @@ namespace AuthTests
             getUserSucceeds = false;
             SetupWithMocks();
 
-            //Act
+            //Act//
             var result = await controller.GetUser(authId);
 
             //Assert
