@@ -1212,7 +1212,6 @@ namespace AuthTests
             SetupWithMocks();
 
             //Act
-            var triggerRelease = "trigger";
             var result = await controller.GetUser(authId);
 
             //Assert
